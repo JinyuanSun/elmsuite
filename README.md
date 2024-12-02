@@ -1,7 +1,9 @@
 # plmsuite
 
-Simple, unified interface to multiple protein language models.
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+Simple, unified interface to multiple protein language models.
+This project is heavily inspired by [aisuite](https://github.com/andrewyng/aisuite).
 
 ## Installation
 

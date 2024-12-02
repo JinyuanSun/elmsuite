@@ -5,6 +5,7 @@ from plmsuite.backend import ProteinLanguageModel, PLMErrors
 
 MAX_TOKENS = 1000
 
+
 class BiolmPLM(ProteinLanguageModel):
     def __init__(self, **config):
         self.api_key = config
@@ -12,26 +13,19 @@ class BiolmPLM(ProteinLanguageModel):
     def prompt_completions(self, prompt, model, **kwargs):
         url = f"https://biolm.ai/api/v2/{model}/generate/"
         default_param = {
-                "temperature": 1,
-                "top_p": 1,
-                "num_samples": 1,
-                "max_length": 384
-            }
+            "temperature": 1,
+            "top_p": 1,
+            "num_samples": 1,
+            "max_length": 384,
+        }
         for key in default_param:
             if key in kwargs:
                 default_param[key] = kwargs[key]
 
-        payload = json.dumps({
-            "params": default_param,
-            "items": [
-                {
-                    "context": prompt
-                }
-            ]
-        })
+        payload = json.dumps({"params": default_param, "items": [{"context": prompt}]})
         headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Token {}'.format(os.environ['BIOLM_API_KEY']),
+            "Content-Type": "application/json",
+            "Authorization": "Token {}".format(os.environ["BIOLM_API_KEY"]),
         }
         # format_as_curl = f"curl -X POST {url} -H 'Content-Type: application/json' - {payload}"
         print(payload)

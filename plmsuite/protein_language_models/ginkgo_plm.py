@@ -5,6 +5,7 @@ from plmsuite.backend import ProteinLanguageModel, PLMErrors
 
 MAX_TOKENS = 1000
 
+
 class GinkgoPLM(ProteinLanguageModel):
     def __init__(self, **config):
         self.api_key = config
@@ -20,56 +21,66 @@ class GinkgoPLM(ProteinLanguageModel):
             input_text.append(f"<mask>")
         input_text.extend(list(chunks[-1]))
         sequence = "".join(input_text[:MAX_TOKENS])
-        transforms = [{'config': {},'type': 'FILL_MASK'}]
+        transforms = [{"config": {}, "type": "FILL_MASK"}]
         form_data = {
-            'text': sequence,
-            'transforms': json.dumps(transforms),
-            'model': model
+            "text": sequence,
+            "transforms": json.dumps(transforms),
+            "model": model,
         }
-        response = requests.post('https://api.ginkgobioworks.ai/v1/transforms/run',
-            headers={ 'x-api-key': os.getenv('GINKGO_API_KEY') },
+        response = requests.post(
+            "https://api.ginkgobioworks.ai/v1/transforms/run",
+            headers={"x-api-key": os.getenv("GINKGO_API_KEY")},
             data=form_data,
         )
         if response.ok:
             while True:
-                response = requests.get(response.json()['result'], headers={ 'x-api-key': os.getenv('GINKGO_API_KEY') })
+                response = requests.get(
+                    response.json()["result"],
+                    headers={"x-api-key": os.getenv("GINKGO_API_KEY")},
+                )
                 if response.ok:
                     response = response.json()
-                    if response['status'] == 'COMPLETE':
-                        return response['result']
+                    if response["status"] == "COMPLETE":
+                        return response["result"]
                 else:
                     time.sleep(0.5)
-        
-
 
     def embed_sequences(self, sequence, model="ginkgo-aa0-650M"):
-        transforms = [{'config': {},'type': 'EMBEDDING'}]
+        transforms = [{"config": {}, "type": "EMBEDDING"}]
         form_data = {
-            'text': sequence[:MAX_TOKENS],
-            'transforms': json.dumps(transforms),
-            'model': model
+            "text": sequence[:MAX_TOKENS],
+            "transforms": json.dumps(transforms),
+            "model": model,
         }
 
-        response = requests.post('https://api.ginkgobioworks.ai/v1/transforms/run',
-            headers={ 'x-api-key': os.getenv('GINKGO_API_KEY') },
+        response = requests.post(
+            "https://api.ginkgobioworks.ai/v1/transforms/run",
+            headers={"x-api-key": os.getenv("GINKGO_API_KEY")},
             data=form_data,
         )
 
         if response.ok:
             while True:
-                response = requests.get(response.json()['result'], headers={ 'x-api-key': os.getenv('GINKGO_API_KEY') })
+                response = requests.get(
+                    response.json()["result"],
+                    headers={"x-api-key": os.getenv("GINKGO_API_KEY")},
+                )
                 if response.ok:
                     response = response.json()
-                    if response['status'] == 'COMPLETE':
-                        return response['result']
+                    if response["status"] == "COMPLETE":
+                        return response["result"]
                 else:
                     time.sleep(0.5)
-        
+
+
 if __name__ == "__main__":
     ginkgo_plm = GinkgoPLM()
     sequence = "MTYKLILNGKTLKGETTTEAVDAATAEKVFKQYANDNGVDGEWTYDDATKTFTVTE"
     # breakpoint()
     # data = ginkgo_plm.embed_sequences(sequence)
     # breakpoint()
-    data = ginkgo_plm.prompt_completions("MTYKLILNGKTLKGETTTEAVDAATAE<mask>VFKQYANDNGVDGEWTYDDATKTFTVTE", "ginkgo-aa0-650M")
+    data = ginkgo_plm.prompt_completions(
+        "MTYKLILNGKTLKGETTTEAVDAATAE<mask>VFKQYANDNGVDGEWTYDDATKTFTVTE",
+        "ginkgo-aa0-650M",
+    )
     print(data)

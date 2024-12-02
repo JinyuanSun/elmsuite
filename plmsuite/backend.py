@@ -4,6 +4,7 @@ import importlib
 import os
 import functools
 
+
 class PLMErrors(Exception):
     """Custom exception for PLM errors."""
 
@@ -21,7 +22,7 @@ class ProteinLanguageModel(ABC):
     def embed_sequences(self, sequences):
         """Abstract method for embedding sequences, to be implemented by each plm."""
         pass
-    
+
 
 class PLMFactory:
     """Factory to dynamically load plm instances based on naming conventions."""
@@ -48,7 +49,7 @@ class PLMFactory:
         # Instantiate the plm class
         plm_class = getattr(module, plm_class_name)
         return plm_class(**config)
-    
+
     @classmethod
     @functools.cache
     def get_supported_plm(cls):
