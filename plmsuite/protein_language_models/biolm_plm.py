@@ -2,6 +2,7 @@ import requests, json
 import time
 import os
 from plmsuite.backend import ProteinLanguageModel, PLMErrors
+from plmsuite.framework.response import PMLResponse
 
 MAX_TOKENS = 1000
 
@@ -28,7 +29,7 @@ class BiolmPLM(ProteinLanguageModel):
             "Authorization": "Token {}".format(os.environ["BIOLM_API_KEY"]),
         }
         # format_as_curl = f"curl -X POST {url} -H 'Content-Type: application/json' - {payload}"
-        print(payload)
+        # print(payload)
         response = requests.request("POST", url, headers=headers, data=payload)
 
         return response.json()
