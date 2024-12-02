@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "plmsuite"
+version = "0.1.0"
+description = "A unified interface for protein language model"
+authors = ["Jinyuan Sun"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.32.3"
+numpy = "^1.21.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
