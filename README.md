@@ -1,15 +1,15 @@
-# plmsuite
+# elmsuite
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Simple, unified interface to multiple protein language models.
+Simple, unified interface to multiple evolutionary language models (Protein, DNA, and RNA).
 This project is heavily inspired by [aisuite](https://github.com/andrewyng/aisuite).
 
 ## Installation
 
 ```shell
-git clone https://github.com/JinyuanSun/plmsuite.git
-cd plmsuite && pip install -e .
+git clone https://github.com/JinyuanSun/elmsuite.git
+cd elmsuite && pip install -e .
 ```
 ## Set up
 
@@ -22,9 +22,9 @@ export BIOLM_API_KEY="your-biolm-api-key"
 
 Use the python client to compute protein sequnece embeddings.
 ```python
-import plmsuite as plm
+import elmsuite as elm
 import numpy as np
-interface = plm.Interface()
+interface = elm.Interface()
 models = ["ginkgo:ginkgo-aa0-650M"]
 sequence = "MTYKLILNGKTLKGETTTEAVDAATAEKVFKQYANDNGVDGEWTYDDATKTFTVTE"
 results = interface.infer.embed.create(model=models[0], sequence=sequence)
@@ -37,9 +37,9 @@ print(embed.shape)
 
 Use the python client to generate protein sequence completions from `biolm:progen2-medium`.
 ```python
-import plmsuite as plm
+import elmsuite as elm
 
-interface = plm.Interface()
+interface = elm.Interface()
 models = ["biolm:progen2-medium"]
 sequence = "MTYKLILNGKTLKGETTTEAVDAAT"
 results = interface.infer.completion.create(model=models[0], prompt=sequence, num_samples=3, max_length=100)
@@ -50,9 +50,9 @@ results = interface.infer.completion.create(model=models[0], prompt=sequence, nu
 Single-point mutation-based protein engineering using `ginkgo:aa0-650M`.  
 
 ```python
-import plmsuite as plm
+import elmsuite as elm
 
-interface = plm.Interface()
+interface = elm.Interface()
 models = ["ginkgo:ginkgo-aa0-650M"]
 sequence = "MTYKLILNGKTLKGETTTEAVDAAT<mask>EKVFKQYANDNGVDGEWTYDDATKTFTVTE"
 results = interface.infer.completion.create(model=models[0], prompt=sequence)
@@ -62,9 +62,9 @@ print(results.choices[0].sequence.content)
 Evo on together.ai:
 
 ```python
-import plmsuite as plm
+import elmsuite as elm
 import numpy as np
-interface = plm.Interface()
+interface = elm.Interface()
 models = ["together:togethercomputer/evo-1-131k-base"]
 sequence = "ATG"
 results = interface.infer.completion.create(model=models[0], prompt=sequence, max_tokens=100)
