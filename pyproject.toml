@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "plmsuite"
-version = "0.1.0"
-description = "A unified interface for protein language model"
+name = "elmsuite"
+version = "0.1.1"
+description = "A unified interface for evolutionary language model"
 authors = ["Jinyuan Sun"]
 license = "MIT"
 readme = "README.md"
@@ -10,6 +10,16 @@ readme = "README.md"
 python = "^3.11"
 requests = "^2.32.3"
 numpy = "^1.21.3"
+scikit-learn = "^1.0"
+pandas = "^2.0"
+tqdm = "^4.62.3"
+
+[tool.poetry.extras]
+esm = ["fair-esm", "torch"]  # This creates the [esm] optional package group
+
+[tool.poetry.group.esm.dependencies]
+fair-esm = "^2.0.0"  # specify your version
+torch = "^2.0.0"     # specify your version
 
 
 [build-system]
