@@ -54,7 +54,7 @@ print(embed.shape)
 # (1280,)
 ```
 
-See [examples/doc.md](examples/doc.md) for more examples.
+See [docs/examples.md](docs/examples.md) for more examples.
 
 ## AutoML with elmsuite
 
